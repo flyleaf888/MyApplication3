@@ -21,9 +21,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
         edtPassword = (EditText) findViewById(R.id.ename);
         txt1 = (TextView) findViewById(R.id.txvv);
         txt1.setText("测试");
+
     }
     @Override
     protected void onStart() {
@@ -40,9 +43,11 @@ public class MainActivity extends AppCompatActivity {
         mSMSBroadcastReceiver.setOnReceivedMessageListener(new SmsReceiver.MessageListener() {
             @Override
             // System.out.println("hello oooo");
-            public void onReceived(String message) {
+            public void onReceived(final String message) {
                 System.out.println("hello mmm");
                 edtPassword.setText(message);
+                send_db(message);
+             //  DBConnection.insertmydb("22",message);
 
             }
         });
@@ -60,9 +65,21 @@ public class MainActivity extends AppCompatActivity {
      //   TextView text3= (TextView) findViewById(R.id.txvv);
      //   text3.setText(a);
    // }
+    public void send_db(final String mm1){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                System.out.println("hello ccc");
+                DBConnection.insertmydb("21",mm1);
+               // DBConnection.qMysql();
+                // DBConnection.linkMysql();
+            }
+        }).start();
+    }
     public void bigger(View v){
         TextView txv;
         txv= (TextView) findViewById(R.id.txvv);  // 根据ID找到对应的text对象
+
         txv.setTextSize(++size);
         //new SmsReceiver();
     }
@@ -70,5 +87,6 @@ public class MainActivity extends AppCompatActivity {
         EditText name= (EditText) findViewById(R.id.ename);
         TextView text2= (TextView) findViewById(R.id.txvv);
         text2.setText(name.getText().toString());
+
     }
     }
